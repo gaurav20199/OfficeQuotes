@@ -1,0 +1,43 @@
+.container {
+    max-width: 700px; margin-top: 5rem;
+}
+.progress {
+    height: 0.9rem; margin-bottom: 1rem;
+}
+.option-btn {
+    width: 100%; margin-bottom: 10px;
+}
+.selected {
+    background-color: green !important; color: white;
+}
+.hidden {
+    display: none;
+}
+
+.login-container {
+    max-width: 950px;
+    margin: auto;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.login-image-wrapper {
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.login-image {
+    background-size: cover;
+    margin-top: 4rem;
+    width: 100%;
+    height: 50vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
