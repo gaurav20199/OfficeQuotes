@@ -7,7 +7,10 @@ import java.util.List;
 
 public interface QuoteRepository extends JpaRepository<Quote,Integer>{
 	
-	@Query(value = "SELECT * FROM quote Order by rand() Limit 5",nativeQuery = true)
-	List<Quote> findRandomQuestions();
+	@Query(value = "SELECT DISTINCT id FROM quote ORDER BY RAND() limit 20",nativeQuery = true)
+	List<Integer> findRandomQuestionsIds();
+
+	@Query(value = "SELECT q from Quote q where q.id in :quoteIds")
+	List<Quote> findQuoteWithQuoteIds(List<Integer> quoteIds);
 			
 }
