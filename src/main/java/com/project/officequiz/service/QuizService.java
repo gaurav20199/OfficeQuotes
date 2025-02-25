@@ -9,12 +9,13 @@ import java.util.List;
 
 @Service
 public class QuizService {
-	
-	@Autowired
-	QuoteRepository repository;
 
-	
-	
+	private final QuoteRepository repository;
+
+	public QuizService(QuoteRepository repository) {
+		this.repository = repository;
+	}
+
 	public List<Quote> getAllQuotes(){
 		List<Integer> randomQuoteIds = repository.findRandomQuestionsIds();
 		return repository.findQuoteWithQuoteIds(randomQuoteIds);
