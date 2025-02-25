@@ -4,7 +4,6 @@ import com.project.officequiz.dao.QuoteRepository;
 import com.project.officequiz.entity.Quote;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 
@@ -17,7 +16,8 @@ public class QuizService {
 	
 	
 	public List<Quote> getAllQuotes(){
-		return repository.findRandomQuestions();
+		List<Integer> randomQuoteIds = repository.findRandomQuestionsIds();
+		return repository.findQuoteWithQuoteIds(randomQuoteIds);
 	}
 	
 	public Quote insertQuestion(Quote ques) {

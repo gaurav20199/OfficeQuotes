@@ -27,7 +27,7 @@ public class DBInitializer implements CommandLineRunner {
 
     @Override
     public void run(String... args) throws Exception {
-
+        /*
         Quote quote = new Quote();
         quote.setQuote("I'm an early bird and a night owl. So I'm wise and I have worms.");
         List<Options> optionsForQuote1 = new ArrayList<>();
@@ -84,6 +84,8 @@ public class DBInitializer implements CommandLineRunner {
         quoteRepository.save(quote3);
         quoteRepository.save(quote4);
         quoteRepository.save(quote5);
+
+         */
 
     }
 }
