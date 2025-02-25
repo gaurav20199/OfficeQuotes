@@ -1,4 +1,4 @@
-package com.project.officequiz;
+package com.project.officequiz.controller;
 import com.project.officequiz.dto.QuoteDTO;
 import com.project.officequiz.entity.Quote;
 import com.project.officequiz.service.QuizService;
@@ -30,11 +30,6 @@ public class QuizController {
 		model.addAttribute("quotes", quoteDTOS);
 		model.addAttribute("currentIndex", 0);
 		return "home";
-	}
-
-	@GetMapping("/login")
-	public String showLoginForm() {
-		return "login";
 	}
 
 	@PostMapping("/submitQuiz")
