@@ -13,7 +13,6 @@ import jakarta.persistence.ManyToMany;
 import lombok.Getter;
 import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
-
 import java.util.Set;
 
 @Entity
@@ -31,6 +30,7 @@ public class User {
     @Column(unique = true)
     private String email;
     private String password;
+    private boolean isActive = false;
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "user_authorities",

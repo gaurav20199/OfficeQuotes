@@ -6,7 +6,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import java.util.Collection;
 
 public class SecurityUser implements UserDetails {
-
     private final User user;
 
     public SecurityUser(User user) {
@@ -26,5 +25,10 @@ public class SecurityUser implements UserDetails {
     @Override
     public String getUsername() {
         return this.user.getUserName();
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return user.isActive();
     }
 }
