@@ -2,6 +2,7 @@ package com.project.officequiz.service;
 
 import com.project.officequiz.dao.UserManagementRepository;
 import com.project.officequiz.dto.UserDTO;
+import com.project.officequiz.entity.ActivationToken;
 import com.project.officequiz.entity.Authority;
 import com.project.officequiz.entity.User;
 import com.project.officequiz.exception.UserAlreadyExistsException;
@@ -20,11 +21,12 @@ import java.util.Set;
 @Service
 public class UserManagementService implements UserDetailsService {
     private final UserManagementRepository userManagementRepository;
-
+    private final ActivationTokenService activationTokenService;
     private final PasswordEncoder passwordEncoder;
 
-    public UserManagementService(UserManagementRepository userManagementRepository,PasswordEncoder passwordEncoder) {
+    public UserManagementService(UserManagementRepository userManagementRepository, ActivationTokenService activationTokenService, PasswordEncoder passwordEncoder) {
         this.userManagementRepository = userManagementRepository;
+        this.activationTokenService = activationTokenService;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -50,6 +52,14 @@ public class UserManagementService implements UserDetailsService {
         user.setAuthorities(Set.of(authority));
         authority.setUsers(Set.of(user));
         userManagementRepository.save(user);
+        // Generating Activation token
+        ActivationToken token = activationTokenService.createToken(user.getEmail());
+        String activationToken = token.getToken();
+
+        // sending email
+
+
+
     }
 
     public boolean isUserExists(String userName, String email) {
