@@ -4,13 +4,16 @@ import com.project.officequiz.dao.UserManagementRepository;
 import com.project.officequiz.dto.UserDTO;
 import com.project.officequiz.entity.Authority;
 import com.project.officequiz.entity.User;
+import com.project.officequiz.exception.UserAlreadyExistsException;
 import com.project.officequiz.security.usermanagement.SecurityUser;
 import com.project.officequiz.utils.ConversionUtil;
+import com.project.officequiz.utils.CredentialsValidator;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -31,7 +34,15 @@ public class UserManagementService implements UserDetailsService {
         return fetchedUser.map(SecurityUser::new).orElseThrow(() -> new UsernameNotFoundException("User with username::"+username+" not found."));
     }
 
-    public void createUser(UserDTO userDTO) {
+    public void createUser(UserDTO userDTO) throws Exception {
+
+        if(!CredentialsValidator.validateEmail(userDTO.email()))
+            throw new Exception("Email Address is not valid");
+        if(!CredentialsValidator.validatePassword(userDTO.password()))
+            throw new Exception("Password should have at least 8 Characters and should include one Uppercase,one Numeric and one Special Character");
+        if(isUserExists(userDTO.userName(),userDTO.email()))
+            throw new UserAlreadyExistsException("User already exists with same user name or email id");
+
         String encodedPassword = passwordEncoder.encode(userDTO.password());
         User user = ConversionUtil.convertUserDTOToUser(userDTO, encodedPassword);
         Authority authority = new Authority();
@@ -39,5 +50,10 @@ public class UserManagementService implements UserDetailsService {
         user.setAuthorities(Set.of(authority));
         authority.setUsers(Set.of(user));
         userManagementRepository.save(user);
+    }
+
+    public boolean isUserExists(String userName, String email) {
+        List<User> users = userManagementRepository.isValidUser(userName, email);
+        return users!=null && !users.isEmpty();
     }
 }
