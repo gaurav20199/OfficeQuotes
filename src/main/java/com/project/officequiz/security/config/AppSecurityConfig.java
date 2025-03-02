@@ -28,8 +28,8 @@ public class AppSecurityConfig {
                 authorizeHttpRequests(
                         auth ->
                         auth.requestMatchers(
-                                "/login","/quiz","/register", "/css/**", "/images/**", "/favicon.ico",
-                                        "/activate/**"
+                                        "/login","/quiz","/register", "/activate/**","/",
+                                        "/css/**", "/images/**","/js/**","/favicon.ico"
                                 ).
                         permitAll().anyRequest().authenticated()
                 ).
