@@ -6,14 +6,18 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.servlet.ModelAndView;
 
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
     @ExceptionHandler(InvalidUserDetailsException.class)
-    public ResponseEntity<ErrorResponse> handleUserAlreadyExistsException(InvalidUserDetailsException ex, WebRequest request) {
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.CONFLICT.value(), "Conflict", ex.getMessage());
-        return new ResponseEntity<>(errorResponse, HttpStatus.CONFLICT);
+    public ModelAndView handleInvalidUserDetailsException(InvalidUserDetailsException ex, WebRequest request) {
+        ModelAndView modelAndView = new ModelAndView("error");
+        modelAndView.addObject("status", ex.getHttpStatus());
+        modelAndView.addObject("error", ex.getMessage());
+        modelAndView.addObject("message", ex.getMessage());
+        return modelAndView;
     }
 /*
     @ExceptionHandler(ValidationException.class)
@@ -36,8 +40,11 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<ErrorResponse> handleGlobalException(Exception ex, WebRequest request) {
-        ErrorResponse errorResponse = new ErrorResponse(HttpStatus.INTERNAL_SERVER_ERROR.value(), "Internal Server Error", "An unexpected error occurred");
-        return new ResponseEntity<>(errorResponse, HttpStatus.INTERNAL_SERVER_ERROR);
+    public ModelAndView handleGlobalException(Exception ex, WebRequest request) {
+        ModelAndView modelAndView = new ModelAndView("error");
+        modelAndView.addObject("status", HttpStatus.INTERNAL_SERVER_ERROR);
+        modelAndView.addObject("error", HttpStatus.INTERNAL_SERVER_ERROR.name().replaceAll("_"," "));
+        modelAndView.addObject("message", HttpStatus.INTERNAL_SERVER_ERROR.name().replaceAll("_"," "));
+        return modelAndView;
     }
 }
