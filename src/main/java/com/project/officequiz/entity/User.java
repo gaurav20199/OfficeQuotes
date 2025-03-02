@@ -31,6 +31,8 @@ public class User {
     private String email;
     private String password;
     private boolean isActive = false;
+    private String activationToken;
+    private Long tokenExpiryTime;
 
     @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
     @JoinTable(name = "user_authorities",

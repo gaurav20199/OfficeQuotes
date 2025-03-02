@@ -13,4 +13,6 @@ public interface UserManagementRepository extends JpaRepository<User,Integer> {
 
     @Query("select u from User u where u.userName=?1 or u.email=?2")
     List<User> isValidUser(String userName, String email);
+
+    Optional<User> findByUserNameAndIsActiveTrue(String userName);
 }
