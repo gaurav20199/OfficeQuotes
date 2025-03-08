@@ -56,7 +56,7 @@ public class UserManagementService implements UserDetailsService {
         populateTokenDetails(user);
         userManagementRepository.save(user);
         // sending email
-        emailService.sendEmailUsingTemplate(user.getEmail(),user.getActivationToken());
+        emailService.sendEmailUsingTemplate(user.getUserName(),user.getEmail(),user.getActivationToken());
     }
 
     public boolean isUserExists(String userName, String email) {

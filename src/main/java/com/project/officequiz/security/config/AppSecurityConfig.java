@@ -29,7 +29,7 @@ public class AppSecurityConfig {
                         auth ->
                         auth.requestMatchers(
                                         "/login","/quiz","/register", "/activate/**","/",
-                                        "/css/**", "/images/**","/js/**","/favicon.ico"
+                                        "/css/**", "/images/**","/js/**","/favicon.ico","/registration-success"
                                 ).
                         permitAll().anyRequest().authenticated()
                 ).
