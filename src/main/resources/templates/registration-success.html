@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Your Email</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="/css/registration-success.css">
+</head>
+<body>
+<div class="container">
+    <div class="email-card">
+        <div class="success-animation">
+            <div class="checkmark-circle">
+                <div class="checkmark draw"></div>
+            </div>
+        </div>
+        <h1>Check Your Email</h1>
+        <p class="lead">We've sent a verification link to your email address</p>
+        <div class="email-icon">
+            <i class="fas fa-envelope-open-text"></i>
+        </div>
+        <div class="info-box">
+            <div class="info-item">
+                <i class="fas fa-info-circle"></i>
+                <p>Click the link in the email to activate your account</p>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-exclamation-circle"></i>
+                <p>The link will expire in 30 minutes</p>
+            </div>
+            <div class="info-item">
+                <i class="fas fa-spam"></i>
+                <p class="small">Don't see the email? Check your spam folder</p>
+            </div>
+        </div>
+        <button class="resend-btn" onclick="handleResend()">
+            <i class="fas fa-redo-alt"></i> Resend Email
+        </button>
+        <div class="timer" id="timer">
+            <i class="fas fa-clock"></i> You can resend in: <span id="countdown">60</span>s
+        </div>
+    </div>
+</div>
+<script src="/js/registration-success.js"></script>
+</body>
+</html>
