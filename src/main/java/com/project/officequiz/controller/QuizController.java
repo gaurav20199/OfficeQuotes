@@ -24,12 +24,16 @@ public class QuizController {
 	}
 
 	@GetMapping("/quiz")
-	public String getQuiz(Model model) {
+	public String getQuiz() {
+		return "quiz-page";
+	}
+
+	@GetMapping("/quiz/data")
+	@ResponseBody
+	public List<QuoteDTO> getQuizData() {
 		List<Quote> quotes = service.getAllQuotes();
 		List<QuoteDTO> quoteDTOS = quotes.stream().map(ConversionUtil::convertQuoteToQuoteDTO).toList();
-		model.addAttribute("quotes", quoteDTOS);
-		model.addAttribute("currentIndex", 0);
-		return "home";
+		return quoteDTOS;
 	}
 
 	@PostMapping("/submitQuiz")
