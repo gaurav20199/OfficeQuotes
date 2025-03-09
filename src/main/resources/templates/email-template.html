@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Verify Your Email</title>
+</head>
+<body style="margin: 0; padding: 0; font-family: Arial, Helvetica, sans-serif; background-color: #f4f4f4;">
+<!-- Main Table -->
+<table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f4f4f4;">
+    <tr>
+        <td align="center" style="padding: 40px 0;">
+            <!-- Content Table -->
+            <table width="600" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1);">
+                <tr>
+                    <td style="padding: 40px;">
+                        <!-- Logo -->
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td align="center" style="padding-bottom: 30px;">
+                                    <img src="cid:logoImage" alt="Company Logo" style="max-width: 180px;">
+                                </td>
+                            </tr>
+                        </table>
+
+<!--                        <table width="100%" cellpadding="0" cellspacing="0" border="0">-->
+<!--                            <tr>-->
+<!--                                <td align="center" style="padding-bottom: 30px;">-->
+<!--                                    <img src="cid:officeTriviaImage" alt="Welcome Image" style="max-width: 500px; width: 100%;">-->
+<!--                                </td>-->
+<!--                            </tr>-->
+<!--                        </table>-->
+
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td>
+                                    <h1 style="color: #1a202c; margin: 0 0 20px 0; font-size: 24px; text-align: center;">Welcome to Our Platform!</h1>
+                                    <p th:text="|Hello ${userName},|" style="color: #333333; font-size: 16px; line-height: 24px; margin: 0 0 20px 0;"></p>
+                                    <p style="color: #333333; font-size: 16px; line-height: 24px; margin: 0 0 20px 0;">Thank you for joining us! We're excited to have you on board. To start using our platform and unlock all features, please verify your email address by clicking the button below:</p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Button -->
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td align="center" style="padding: 30px 0;">
+                                    <table cellpadding="0" cellspacing="0" border="0">
+                                        <tr>
+                                            <td align="center" style="background-color: #4CAF50; border-radius: 25px;">
+                                                <a th:href="${buttonUrl}" style="display: inline-block; padding: 16px 36px; color: #ffffff; text-decoration: none; font-weight: bold; font-size: 16px;">Verify Email Address</a>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Help Box -->
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background-color: #f8f9fa; border-radius: 8px; margin: 20px 0;">
+                            <tr>
+                                <td style="padding: 20px;">
+                                    <p style="color: #666666; font-size: 14px; line-height: 20px; margin: 0 0 10px 0;">⚡ This link will expire in 10 minutes for security reasons.</p>
+                                    <p style="color: #666666; font-size: 14px; line-height: 20px; margin: 0;">🔒 If you didn't create an account, you can safely ignore this email.</p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Verification Code -->
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td>
+                                    <p style="color: #333333; font-size: 16px; line-height: 24px; margin: 0 0 10px 0;">If the button doesn't work, copy and paste this verification code:</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td align="center" style="background-color: #f8f9fa; padding: 15px; border-radius: 8px;">
+                                    <p th:text="${buttonUrl}" style="font-family: monospace; font-size: 20px; letter-spacing: 2px; margin: 0;"></p>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Social Links -->
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0">
+                            <tr>
+                                <td align="center" style="padding: 30px 0;">
+                                    <a href="#" style="color: #4CAF50; text-decoration: none; margin: 0 10px;">Twitter</a>
+                                    <span style="color: #4CAF50;">•</span>
+                                    <a href="#" style="color: #4CAF50; text-decoration: none; margin: 0 10px;">Facebook</a>
+                                    <span style="color: #4CAF50;">•</span>
+                                    <a href="#" style="color: #4CAF50; text-decoration: none; margin: 0 10px;">LinkedIn</a>
+                                    <span style="color: #4CAF50;">•</span>
+                                    <a href="#" style="color: #4CAF50; text-decoration: none; margin: 0 10px;">Instagram</a>
+                                </td>
+                            </tr>
+                        </table>
+
+                        <!-- Footer -->
+                        <table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-top: 1px solid #eeeeee; margin-top: 30px;">
+                            <tr>
+                                <td align="center" style="padding-top: 30px;">
+                                    <p style="color: #666666; font-size: 12px; line-height: 18px; margin: 0 0 5px 0;">© 2025 Office Trivia.</p>
+                                    <p style="color: #666666; font-size: 12px; line-height: 18px; margin: 0 0 5px 0;">App Created by Fans, For Fans. Not affiliated with NBC</p>
+                                    <p style="color: #666666; font-size: 12px; line-height: 18px; margin: 0;">Questions and any copyright issues? Email us at support@company.com</p>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

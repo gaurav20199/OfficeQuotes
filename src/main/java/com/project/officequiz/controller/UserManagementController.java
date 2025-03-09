@@ -7,7 +7,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
@@ -33,7 +32,7 @@ public class UserManagementController {
     @PostMapping("/activate")
     public String activateUser(@ModelAttribute UserDTO userDTO) {
         boolean isValidUser = userManagementService.validateUserDetailsForActivation(userDTO);
-        return isValidUser?"redirect:/account-activation-success":"error-page";
+        return isValidUser?"redirect:/account-activation-success":"error";
     }
 
     @GetMapping("/register")
@@ -44,6 +43,11 @@ public class UserManagementController {
     @PostMapping("/register")
     public String registerUser(@ModelAttribute UserDTO userDTO) throws Exception{
         userManagementService.createUser(userDTO);
-        return "redirect:/quiz";
+        return "redirect:/registration-success";
+    }
+
+    @GetMapping("/registration-success")
+    public String showSuccessPage() {
+        return "registration-success";
     }
 }
