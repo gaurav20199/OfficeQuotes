@@ -25,7 +25,7 @@ public class QuizController {
 
 	@GetMapping("/quiz")
 	public String getQuiz() {
-		return "quiz-page";
+		return "quiz";
 	}
 
 	@GetMapping("/quiz/data")
