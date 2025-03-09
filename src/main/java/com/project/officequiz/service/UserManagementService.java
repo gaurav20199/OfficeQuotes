@@ -84,7 +84,8 @@ public class UserManagementService implements UserDetailsService {
             user.setActivationToken(null);
             userManagementRepository.save(user);
             return true;
+        }else {
+            throw new InvalidUserDetailsException(HttpStatus.UNAUTHORIZED,"Invalid Authentication Token");
         }
-        return false;
     }
 }
