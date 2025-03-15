@@ -1,0 +1,6 @@
+ALTER TABLE Episode
+ADD COLUMN total_votes INT,
+ADD COLUMN description VARCHAR(500),
+ADD COLUMN directed_by VARCHAR(255),
+ADD COLUMN written_by VARCHAR(255);
+
