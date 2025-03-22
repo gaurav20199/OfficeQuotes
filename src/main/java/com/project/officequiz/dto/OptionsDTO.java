@@ -1,4 +1,4 @@
 package com.project.officequiz.dto;
 
-public record OptionsDTO(String optionLabel,int optionOrder) {
+public record OptionsDTO(String optionLabel,boolean isCorrectAnswer) {
 }

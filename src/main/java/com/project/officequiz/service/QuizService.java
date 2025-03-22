@@ -1,24 +1,24 @@
 package com.project.officequiz.service;
 
-import com.project.officequiz.dao.QuoteRepository;
-import com.project.officequiz.entity.Quote;
+import com.project.officequiz.entity.Question;
+import com.project.officequiz.repository.QuestionRepository;
 import org.springframework.stereotype.Service;
 import java.util.List;
 @Service
 public class QuizService {
 
-	private final QuoteRepository repository;
+	private final QuestionRepository repository;
 
-	public QuizService(QuoteRepository repository) {
+	public QuizService(QuestionRepository repository) {
 		this.repository = repository;
 	}
 
-	public List<Quote> getAllQuotes(){
+	public List<Question> getAllQuestions(){
 		List<Integer> randomQuoteIds = repository.findRandomQuestionsIds();
 		return repository.findQuoteWithQuoteIds(randomQuoteIds);
 	}
 	
-	public Quote insertQuestion(Quote ques) {
+	public Question insertQuestion(Question ques) {
 		repository.save(ques);
 		return ques;
 	}
