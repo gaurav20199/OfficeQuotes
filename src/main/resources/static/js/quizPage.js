@@ -51,6 +51,7 @@ function loadQuestion() {
         const optionElement = document.createElement('div');
         optionElement.classList.add('option');
         optionElement.textContent = optionObj.optionLabel;
+        optionElement.dataset.answer = optionObj.isCorrectAnswer;
         optionElement.dataset.index = index+1;
         optionElement.addEventListener('click', selectOption);
         optionsContainer.appendChild(optionElement);
@@ -63,10 +64,9 @@ function selectOption(e) {
     if (quizEnded) return;
 
     const selectedOption = e.target;
-    const selectedAnswer = parseInt(selectedOption.dataset.index);
+    const answer = selectedOption.dataset.answer;
     const currentQuizData = quizData[currentQuestion];
-
-    let isCorrect = selectedAnswer === currentQuizData.answer;
+    let isCorrect = answer.toLowerCase()==="true";
 
     if (isCorrect) {
         score++;

@@ -1,4 +1,4 @@
-package com.project.officequiz.dao;
+package com.project.officequiz.repository;
 
 import com.project.officequiz.entity.User;
 import org.springframework.data.jpa.repository.JpaRepository;

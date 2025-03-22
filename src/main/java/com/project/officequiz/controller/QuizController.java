@@ -1,6 +1,7 @@
 package com.project.officequiz.controller;
+import com.project.officequiz.dto.QuestionDTO;
 import com.project.officequiz.dto.QuoteDTO;
-import com.project.officequiz.entity.Quote;
+import com.project.officequiz.entity.Question;
 import com.project.officequiz.service.QuizService;
 import com.project.officequiz.utils.ConversionUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,15 +31,15 @@ public class QuizController {
 
 	@GetMapping("/quiz/data")
 	@ResponseBody
-	public List<QuoteDTO> getQuizData() {
-		List<Quote> quotes = service.getAllQuotes();
-		List<QuoteDTO> quoteDTOS = quotes.stream().map(ConversionUtil::convertQuoteToQuoteDTO).toList();
-		return quoteDTOS;
+	public List<QuestionDTO> getQuizData() {
+		List<Question> questions = service.getAllQuestions();
+		List<QuestionDTO> questionDTOS = questions.stream().map(ConversionUtil::convertQuestionToQuestionDTO).toList();
+		return questionDTOS;
 	}
 
 	@PostMapping("/submitQuiz")
 	public String submitQuiz(@RequestParam Map<String, String> userAnswers, Model model) {
-		List<Quote> quotes = service.getAllQuotes();
+/*		List<Quote> quotes = service.getAllQuotes();
 		int score = 0;
 		for (int i = 0; i < quotes.size(); i++) {
 			int correctAnswer = quotes.get(i).getAnswerOption();
@@ -48,14 +49,15 @@ public class QuizController {
 			}
 		}
 		model.addAttribute("score", score);
-		return "quiz";
+		return "quiz";*/
+		return "";
 	}
 	
-	@PostMapping(path="/insertQuestion",consumes= {"application/json"})  // We can use consume to only accept JSON
+/*	@PostMapping(path="/insertQuestion",consumes= {"application/json"})  // We can use consume to only accept JSON
 	@ResponseBody
 	public Quote insertQuestion(@RequestBody Quote ques) {
 		
 		service.insertQuestion(ques);
 		return ques;
-	}
+	}*/
 }

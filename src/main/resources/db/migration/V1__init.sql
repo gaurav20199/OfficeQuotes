@@ -47,10 +47,8 @@ CREATE TABLE Episode (
 
 CREATE TABLE Question (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    season_id INT,
     episode_id INT,
     quote TEXT NOT NULL,
-    FOREIGN KEY (season_id) REFERENCES Season(id),
     FOREIGN KEY (episode_id) REFERENCES Episode(id)
 );
 

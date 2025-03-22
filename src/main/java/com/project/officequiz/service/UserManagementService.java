@@ -1,6 +1,6 @@
 package com.project.officequiz.service;
 
-import com.project.officequiz.dao.UserManagementRepository;
+import com.project.officequiz.repository.UserManagementRepository;
 import com.project.officequiz.dto.UserDTO;
 import com.project.officequiz.entity.Authority;
 import com.project.officequiz.entity.User;
