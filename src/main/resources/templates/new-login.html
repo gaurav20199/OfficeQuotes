@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login & Registration</title>
+    <link rel="stylesheet" href="./css/new-login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+<div class="container">
+
+    <div class="form-container" id="loginForm">
+
+<!--  <div th:if="${session.errorMessage!=null}" class="alert alert-danger text-center" th:text="${session.errorMessage}"></div>-->
+<!--  <th:block th:text="${@sessionHandler.removeMessageFromSession()}"></th:block>-->
+
+        <div th:if="${param.error}" class="alert alert-danger text-center">
+            Invalid username and password.</div>
+        <div th:if="${param.logout}" class="alert alert-danger text-center">
+            You have been logged out.</div>
+
+        <h2>Welcome Back</h2>
+        <p class="subtitle">Please login to your account</p>
+        <form th:action="@{/login}" method="post">
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" name="username" placeholder="Username" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <div class="options">
+                <label>
+                    <input type="checkbox" name="remember"> Remember me
+                </label>
+                <a href="#" class="forgot-password">Forgot Password?</a>
+            </div>
+            <button type="submit" class="btn-primary">Login</button>
+        </form>
+        <p class="switch-text">
+            Don't have an account? <a href="#" id="showRegister">Register</a>
+        </p>
+    </div>
+
+    <div class="form-container hidden" id="registerForm">
+        <h2>Create Account</h2>
+        <p class="subtitle">Please fill in the details to register</p>
+        <form th:action="@{/register}" method="post">
+            <div class="input-group">
+                <i class="fas fa-user"></i>
+                <input type="text" name="userName" placeholder="Username" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="password" placeholder="Password" required>
+            </div>
+            <div class="input-group">
+                <i class="fas fa-lock"></i>
+                <input type="password" name="confirmedPassword" placeholder="Confirm Password" required>
+            </div>
+            <button type="submit" class="btn-primary">Register</button>
+        </form>
+        <p class="switch-text">
+            Already have an account? <a href="#" id="showLogin">Login</a>
+        </p>
+    </div>
+
+    <div class="form-container hidden" id="forgotPasswordForm">
+        <h2>Reset Password</h2>
+        <p class="subtitle">Enter your email to reset password</p>
+        <form>
+            <div class="input-group">
+                <i class="fas fa-envelope"></i>
+                <input type="email" name="email" placeholder="Email" required>
+            </div>
+            <button type="submit" class="btn-primary">Reset Password</button>
+        </form>
+        <p class="switch-text">
+            Remember your password? <a href="#" id="backToLogin">Back to Login</a>
+        </p>
+    </div>
+
+    <div class="form-container hidden" id="welcomePage">
+        <div class="welcome-container">
+            <h2>Welcome</h2>
+            <p class="subtitle">You're successfully logged in</p>
+            <div class="user-info">
+                <p>Username: <span id="displayUsername"></span></p>
+            </div>
+            <button class="btn-primary logout-btn" id="logoutBtn">Logout</button>
+        </div>
+    </div>
+</div>
+<script src="./js/newLogin.js"></script>
+</body>
+</html>

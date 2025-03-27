@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activate Account</title>
+    <link rel="stylesheet" href="./css/new-login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+
+    <style>
+        .hidden {
+            display: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="form-container">
+
+            <!--  <div th:if="${session.errorMessage!=null}" class="alert alert-danger text-center" th:text="${session.errorMessage}"></div>-->
+            <!--  <th:block th:text="${@sessionHandler.removeMessageFromSession()}"></th:block>-->
+
+            <div th:if="${param.error}" class="alert alert-danger text-center">
+                Invalid username and password.</div>
+            <div th:if="${param.logout}" class="alert alert-danger text-center">
+                You have been logged out.</div>
+
+            <h2 id="mainHeading">Welcome Back</h2>
+            <p class="subtitle" id="paraSubTitle">Please Activate your account</p>
+            <form th:action="@{/activate}" method="post">
+                <div class="input-group">
+                    <i class="fas fa-user"></i>
+                    <input type="text" name="userName" id="userName" placeholder="Username" required>
+                </div>
+                <input type="hidden" name="activationCode" th:value="${activationCode}" />
+                <div class="input-group" id="passwordGroup">
+                    <i class="fas fa-lock"></i>
+                    <input type="password" name="password" id="passwordField" placeholder="Password" required>
+                </div>
+                <button type="submit" class="btn-primary" id="activateBtn">Activate Account</button>
+                <button type="submit" class="btn-primary hidden" id="generateCodeBtn">Generate Code</button>
+            </form>
+            <p class="switch-text" id="resendActivationPara">
+                Resend Activation code? <a href="#" id="resendLink">Resend Activation Code</a>
+            </p>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const resendLink = document.getElementById("resendLink");
+            const passwordGroup = document.getElementById("passwordGroup");
+            const passwordField = document.getElementById("passwordField");
+            const activateBtn = document.getElementById("activateBtn");
+            const generateCodeBtn = document.getElementById("generateCodeBtn");
+            const subTitle = document.getElementById("paraSubTitle");
+            const resendActivationPara = document.getElementById("resendActivationPara");
+            const heading = document.getElementById("mainHeading");
+
+            resendLink.addEventListener("click", function (event) {
+                event.preventDefault();
+                passwordGroup.style.display = "none";
+                passwordField.removeAttribute("required");
+                passwordField.value = "";
+                resendActivationPara.textContent = "";
+                subTitle.textContent = "";
+                generateCodeBtn.classList.remove("hidden");
+                activateBtn.classList.add("hidden");
+                heading.textContent = "Please Provide Username";
+            });
+
+            generateCodeBtn.addEventListener("click", function () {
+                event.preventDefault();
+                const userName = document.getElementById("userName").value;
+                if (!userName) {
+                    alert("Please enter a username first.");
+                    return;
+                }
+                window.location.href = `/token?userName=${encodeURIComponent(userName)}`;
+            });
+        });
+    </script>
+</body>
+</html>
