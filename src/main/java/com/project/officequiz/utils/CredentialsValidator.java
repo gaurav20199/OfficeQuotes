@@ -71,4 +71,8 @@ public class CredentialsValidator {
         String domain = (domainSep >= 0) ? address.substring(domainSep + 1) : address;
         return DISPOSABLE_EMAIL_DOMAINS.contains(domain);
     }
+
+    public static boolean validatePasswordInfo(String password, String confirmPassword) {
+        return password.equals(confirmPassword);
+    }
 }

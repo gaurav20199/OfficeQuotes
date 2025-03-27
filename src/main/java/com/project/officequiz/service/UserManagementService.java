@@ -8,6 +8,7 @@ import com.project.officequiz.exception.InvalidUserDetailsException;
 import com.project.officequiz.security.usermanagement.SecurityUser;
 import com.project.officequiz.utils.ConversionUtil;
 import com.project.officequiz.utils.CredentialsValidator;
+import jakarta.mail.MessagingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -42,7 +43,10 @@ public class UserManagementService implements UserDetailsService {
         if(!CredentialsValidator.validateEmail(userDTO.email()))
             throw new InvalidUserDetailsException(HttpStatus.BAD_REQUEST,"Email Address is not valid");
         if(!CredentialsValidator.validatePassword(userDTO.password()))
-            throw new Exception("Password should have at least 8 Characters and should include one Uppercase,one Numeric and one Special Character");
+            throw new InvalidUserDetailsException(HttpStatus.BAD_REQUEST,"Password should have at least 8 Characters and should include one Uppercase,one Numeric and one Special Character");
+        if(!CredentialsValidator.validatePasswordInfo(userDTO.password(), userDTO.confirmedPassword()))
+            throw new InvalidUserDetailsException(HttpStatus.BAD_REQUEST,"Password and Confirmed Password should match");
+
         if(isUserExists(userDTO.userName(),userDTO.email()))
             throw new InvalidUserDetailsException(HttpStatus.CONFLICT,"User already exists with same user name or email id");
 
@@ -57,6 +61,20 @@ public class UserManagementService implements UserDetailsService {
         userManagementRepository.save(user);
         // sending email
         emailService.sendEmailUsingTemplate(user.getUserName(),user.getEmail(),user.getActivationToken());
+    }
+
+    public void resendActivationCode(String userName) throws Exception {
+        User user = userManagementRepository.findUserByUserName(userName).orElseThrow(() -> new InvalidUserDetailsException(HttpStatus.UNAUTHORIZED, "Invalid Username or Password"));
+        if(user.isActive())
+            throw new InvalidUserDetailsException(HttpStatus.CONFLICT,"Account is Already Activated. Please proceed with login");
+
+        if(user.getActivationToken()!=null && user.getTokenExpiryTime()>System.currentTimeMillis())
+            throw new InvalidUserDetailsException(HttpStatus.CONFLICT,"Please check your email for activation link");
+
+        populateTokenDetails(user);
+        userManagementRepository.save(user);
+        emailService.sendEmailUsingTemplate(user.getUserName(),user.getEmail(),user.getActivationToken());
+
     }
 
     public boolean isUserExists(String userName, String email) {

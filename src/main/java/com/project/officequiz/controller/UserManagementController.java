@@ -9,6 +9,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
+
 @Controller
 public class UserManagementController {
 
@@ -20,24 +23,30 @@ public class UserManagementController {
 
     @GetMapping("/login")
     public String showLoginForm(@RequestParam(required = false) String error) {
-        return "login";
+        return "new-login";
     }
 
     @GetMapping("/activate")
     public String showAccountActivationForm(@RequestParam(name = "code") String activationCode, Model model) {
         model.addAttribute("activationCode",activationCode);
-        return "activateUser";
+        return "activate-user";
+    }
+
+    @GetMapping("/token")
+    public String generateActivationToken(@RequestParam("userName") String encodedUserName) throws Exception{
+        String userName = URLDecoder.decode(encodedUserName, StandardCharsets.UTF_8);
+        userManagementService.resendActivationCode(userName);
+        return "redirect:/register/success";
     }
 
     @PostMapping("/activate")
     public String activateUser(@ModelAttribute UserDTO userDTO) {
         boolean isValidUser = userManagementService.validateUserDetailsForActivation(userDTO);
-        return isValidUser?"redirect:/account-activation-success":"error";
+        return isValidUser?"redirect:/activate/success":"error";
     }
-
-    @GetMapping("/register")
-    public String showRegistrationForm() {
-        return "register";
+    @GetMapping("/activate/success")
+    public String getAccountActivationSuccessPage() {
+        return "account-activation-success";
     }
 
     @PostMapping("/register")
@@ -46,7 +55,7 @@ public class UserManagementController {
         return "redirect:/registration-success";
     }
 
-    @GetMapping("/registration-success")
+    @GetMapping("/register/success")
     public String showSuccessPage() {
         return "registration-success";
     }

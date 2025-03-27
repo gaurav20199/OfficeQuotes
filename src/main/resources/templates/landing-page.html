@@ -41,6 +41,9 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#faq">FAQ</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="login">Login</a>
+                </li>
             </ul>
         </div>
     </div>
@@ -54,7 +57,7 @@
                 <h1 class="display-4 fw-bold mb-4">How Well Do You Know <span class="text-primary">The Office?</span></h1>
                 <p class="lead mb-4">Test your knowledge of Dunder Mifflin's finest with our ultimate Office quiz experience. From Michael's "that's what she said" moments to Jim's pranks on Dwight.</p>
                 <div class="d-flex gap-3">
-                    <button class="btn btn-primary btn-lg pulse-btn">Start Quiz Now</button>
+                    <button class="btn btn-primary btn-lg pulse-btn" onclick="startQuiz()">Start Quiz Now</button>
                     <button class="btn btn-outline-light btn-lg">Learn More</button>
                 </div>
             </div>
@@ -90,8 +93,8 @@
                         <div class="icon-box mb-4">
                             <i class="fas fa-question-circle"></i>
                         </div>
-                        <h4 class="card-title mb-3">100+ Questions</h4>
-                        <p class="card-text">Our database includes over 100 questions covering all seasons and characters from the show.</p>
+                        <h4 class="card-title mb-3">1000+ Questions</h4>
+                        <p class="card-text">Our database includes over 1000 questions covering all seasons of the show.</p>
                     </div>
                 </div>
             </div>
@@ -144,8 +147,8 @@
                         <i class="fas fa-users"></i>
                     </div>
                     <div>
-                        <h4>Character-Specific Quizzes</h4>
-                        <p>Test your knowledge about specific characters like Michael, Dwight, Jim, Pam, and more.</p>
+                        <h4>Season-Specific Quizzes</h4>
+                        <p>Test your knowledge about popular quotes from all the seasons.</p>
                     </div>
                 </div>
 
@@ -164,8 +167,8 @@
                         <i class="fas fa-image"></i>
                     </div>
                     <div>
-                        <h4>Visual Questions</h4>
-                        <p>Identify scenes, props, and moments from screenshots of the show.</p>
+                        <h4>Top 50 Popular Quotes</h4>
+                        <p>Play our special, Top 50 popular quiz</p>
                     </div>
                 </div>
 
@@ -323,7 +326,7 @@
                 <div class="cta-card text-center p-5 rounded-3" data-aos="zoom-in">
                     <h2 class="display-5 fw-bold text-white mb-4">Ready to Test Your Office Knowledge?</h2>
                     <p class="lead text-white mb-4">Join thousands of fans who have already taken the challenge. Are you more of a Jim or a Dwight?</p>
-                    <button class="btn btn-light btn-lg px-5 pulse-btn" id="startQuiz">Start Quiz Now</button>
+                    <button class="btn btn-light btn-lg px-5 pulse-btn" onclick="startQuiz()">Start Quiz Now</button>
                 </div>
             </div>
         </div>

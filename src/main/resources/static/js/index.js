@@ -129,6 +129,6 @@ document.addEventListener('DOMContentLoaded', function() {
   animateHeroHeading();
 });
 
-document.getElementById("startQuiz").addEventListener("click", function() {
-window.location.href = "/quiz";
-});
+function startQuiz() {
+    window.location.href = "/quiz";
+}
