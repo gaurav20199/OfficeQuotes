@@ -28,12 +28,20 @@ public class AppSecurityConfig {
                 authorizeHttpRequests(
                         auth ->
                         auth.requestMatchers(
-                                        "/login","/quiz/**","/register", "/activate/**",
+                                        "/login","/register", "/activate/**",
                                         "/", "/css/**", "/images/**","/js/**","/favicon.ico","/registration-success","/token"
                                 ).
                         permitAll().anyRequest().authenticated()
                 ).
-                //addFilterAt(accountStatusFilter, UsernamePasswordAuthenticationFilter.class).
+                logout(logout -> logout
+                        .logoutUrl("/logout")
+                        .logoutSuccessHandler((request, response, authentication) -> {
+                            request.getSession().setAttribute("logoutSuccess", true);
+                            response.sendRedirect("/login");
+                        })
+                ).
+
+        //addFilterAt(accountStatusFilter, UsernamePasswordAuthenticationFilter.class).
                 build();
     }
 

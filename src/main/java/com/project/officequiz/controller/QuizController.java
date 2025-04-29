@@ -1,21 +1,28 @@
 package com.project.officequiz.controller;
+import com.project.officequiz.dto.LeaderboardEntry;
 import com.project.officequiz.dto.QuestionDTO;
 import com.project.officequiz.dto.QuoteDTO;
+import com.project.officequiz.dto.ScoreDTO;
 import com.project.officequiz.entity.Question;
 import com.project.officequiz.service.QuizService;
 import com.project.officequiz.utils.ConversionUtil;
+import jakarta.websocket.server.PathParam;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import java.util.List;
 import java.util.Map;
 
 @Controller
+@RequestMapping("/quiz")
 public class QuizController {
 	@Autowired
 	private final QuizService service;
@@ -24,12 +31,24 @@ public class QuizController {
 		this.service = quizService;
 	}
 
-	@GetMapping("/quiz")
+	@GetMapping
 	public String getQuiz() {
 		return "quiz";
 	}
 
-	@GetMapping("/quiz/data")
+	@GetMapping("/leaderboard")
+	public String showLeaderBoardPage() {
+		return "leaderboard";
+	}
+
+	@GetMapping("/leaderboard/data")
+	@ResponseBody
+	public List<LeaderboardEntry> getLeaderBoardData() {
+		List<LeaderboardEntry> leaderboard = service.getLeaderboard((short) 0, 0);
+		return leaderboard;
+	}
+
+	@GetMapping("/data")
 	@ResponseBody
 	public List<QuestionDTO> getQuizData() {
 		List<Question> questions = service.getAllQuestions();
@@ -37,20 +56,11 @@ public class QuizController {
 		return questionDTOS;
 	}
 
-	@PostMapping("/submitQuiz")
-	public String submitQuiz(@RequestParam Map<String, String> userAnswers, Model model) {
-/*		List<Quote> quotes = service.getAllQuotes();
-		int score = 0;
-		for (int i = 0; i < quotes.size(); i++) {
-			int correctAnswer = quotes.get(i).getAnswerOption();
-			String userAnswer = userAnswers.get("question_" + i);
-			if (userAnswer != null && Integer.parseInt(userAnswer) == correctAnswer) {
-				score++;
-			}
-		}
-		model.addAttribute("score", score);
-		return "quiz";*/
-		return "";
+	@PostMapping("/submit")
+	@ResponseBody
+	public String submitQuiz(@RequestBody ScoreDTO scoreDTO, @AuthenticationPrincipal UserDetails userDetails) {
+		service.completeQuiz(userDetails.getUsername(),(short)0,0,"",scoreDTO.getScore());
+		return "Score submitted successfully";
 	}
 	
 /*	@PostMapping(path="/insertQuestion",consumes= {"application/json"})  // We can use consume to only accept JSON

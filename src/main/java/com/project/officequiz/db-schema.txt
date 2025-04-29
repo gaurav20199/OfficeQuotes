@@ -10,7 +10,7 @@ Season
 Episode
 (id,number,name,season_id(fk), release_date,title,imdbRating)
 
-Quiz(since user can take multiple quiz so have to store detail)
+Quiz(since users can take multiple quiz so have to store detail)
 Not having a Character table as character doesn't require any metadata, enum should work here
 (id, quiz_type,created_at,completed_at,user_id(fk),score,season_id(fk),character)
 

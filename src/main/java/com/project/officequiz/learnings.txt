@@ -7,8 +7,8 @@ Spring Boot AuthenticationFilter Checks
 Order of Checks in Spring Security Authentication
 User Exists?
 
-UserDetailsService loads the user by username.
-If the user is not found, authentication fails immediately.
+UserDetailsService loads the users by username.
+If the users is not found, authentication fails immediately.
 Is the Account Disabled? (isEnabled())
 
 If the account is disabled, authentication fails before checking the password.
@@ -25,8 +25,8 @@ Password Verification
 
 Only after passing all previous checks, the password is verified.
 
-Issue: If user account is disabled and user provided correct username and wrong password then user will get disabled
-exception always. This is intended by design as making any user aware that specific attribute(here password is incorrect)
+Issue: If users account is disabled and users provided correct username and wrong password then users will get disabled
+exception always. This is intended by design as making any users aware that specific attribute(here password is incorrect)
 may lead to security issue and revealing the details of the system.
 
 If we specific want to show Incorrect Credentials in case username/password is missing and showing account is disabled
@@ -34,22 +34,22 @@ when account is disabled. In case account is disabled and password is wrong, we 
 of account is disabled then how to do it????
 1) We have to provide our own custom filter implementation and replace it with UserNameAndPasswordFilter.
 Reason is(assuming we have overridden the loadUserByUserName)::
-Scenario where security user is returning user.isActive() and user is disabled.
+Scenario where security users is returning users.isActive() and users is disabled.
 1.1) If we add our custom filter before and then check for Disable logic then for disable case it will not work when
 account is disabled but password is wrong because after our custom filter, UserNameAndPasswordFilter will be run which
 will always check for disable first and if found will never check for Password.
 1.2) If we add our custom filter later and then check for disable logic then also we will run into same issue.
 UserNameAndPasswordFilter from spring security will be run, and it will not check as soon as disabled account is found.
-Scenario where security user is returning true always
+Scenario where security users is returning true always
 1.1) If we add our custom filter before and then check for disabled logic it will not work. Since loadUserByUserName
 returns UserDetails and in our case SecurityUser is implementing UserDetails so UserDetails will always be true and
-since it is true we will never be able to figure out if user is disabled or not.
+since it is true we will never be able to figure out if users is disabled or not.
 1.2) Same scenario will come if we add our filter after UserNameAndPasswordFilter.
 
 2) How to achieve it???
 If we intend on overriding loadUserByUserName then we will have to ensure:
 2.1) That it is being called from our custom filter only(i.e. replacing our filter with UserName one as mentioned above)
-2.2) Ensuring securityUser isActive isn't hardcoded and should return user.isActive()
+2.2) Ensuring securityUser isActive isn't hardcoded and should return users.isActive()
 2.3) Write the custom logic for checking the password(check AccountStatusFilter class)
 2.4) Set the error message in session object and carefully remove it as well.
 

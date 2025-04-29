@@ -9,8 +9,8 @@ public interface QuestionRepository extends JpaRepository<Question,Integer> {
     @Query(value = """
                 SELECT id FROM question
                 WHERE is_popular = true
-                ORDER BY RAND()
-                LIMIT 20;     
+                ORDER BY RANDOM()
+                LIMIT 5;     
             """,nativeQuery = true)
     List<Integer> findRandomQuestionsIds();
 

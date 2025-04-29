@@ -29,7 +29,7 @@
             <p class="subtitle" id="paraSubTitle">Please Activate your account</p>
             <form th:action="@{/activate}" method="post">
                 <div class="input-group">
-                    <i class="fas fa-user"></i>
+                    <i class="fas fa-users"></i>
                     <input type="text" name="userName" id="userName" placeholder="Username" required>
                 </div>
                 <input type="hidden" name="activationCode" th:value="${activationCode}" />

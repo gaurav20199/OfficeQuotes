@@ -1,14 +1,13 @@
 package com.project.officequiz.service;
 
+import com.project.officequiz.entity.Users;
 import com.project.officequiz.repository.UserManagementRepository;
 import com.project.officequiz.dto.UserDTO;
 import com.project.officequiz.entity.Authority;
-import com.project.officequiz.entity.User;
 import com.project.officequiz.exception.InvalidUserDetailsException;
 import com.project.officequiz.security.usermanagement.SecurityUser;
 import com.project.officequiz.utils.ConversionUtil;
 import com.project.officequiz.utils.CredentialsValidator;
-import jakarta.mail.MessagingException;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -34,7 +33,7 @@ public class UserManagementService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Optional<User> fetchedUser = userManagementRepository.findUserByUserName(username);
+        Optional<Users> fetchedUser = userManagementRepository.findUserByUserName(username);
         return fetchedUser.map(SecurityUser::new).orElseThrow(() -> new UsernameNotFoundException("User with username::"+username+" not found."));
     }
 
@@ -51,56 +50,56 @@ public class UserManagementService implements UserDetailsService {
             throw new InvalidUserDetailsException(HttpStatus.CONFLICT,"User already exists with same user name or email id");
 
         String encodedPassword = passwordEncoder.encode(userDTO.password());
-        User user = ConversionUtil.convertUserDTOToUser(userDTO, encodedPassword);
+        Users users = ConversionUtil.convertUserDTOToUser(userDTO, encodedPassword);
         Authority authority = new Authority();
         authority.setName("ROLE_USER");
-        user.setAuthorities(Set.of(authority));
-        authority.setUsers(Set.of(user));
+        users.setAuthorities(Set.of(authority));
+        authority.setUsers(Set.of(users));
         // Generating Activation token
-        populateTokenDetails(user);
-        userManagementRepository.save(user);
+        populateTokenDetails(users);
+        userManagementRepository.save(users);
         // sending email
-        emailService.sendEmailUsingTemplate(user.getUserName(),user.getEmail(),user.getActivationToken());
+        emailService.sendEmailUsingTemplate(users.getUserName(), users.getEmail(), users.getActivationToken());
     }
 
     public void resendActivationCode(String userName) throws Exception {
-        User user = userManagementRepository.findUserByUserName(userName).orElseThrow(() -> new InvalidUserDetailsException(HttpStatus.UNAUTHORIZED, "Invalid Username or Password"));
-        if(user.isActive())
+        Users users = userManagementRepository.findUserByUserName(userName).orElseThrow(() -> new InvalidUserDetailsException(HttpStatus.UNAUTHORIZED, "Invalid Username or Password"));
+        if(users.isActive())
             throw new InvalidUserDetailsException(HttpStatus.CONFLICT,"Account is Already Activated. Please proceed with login");
 
-        if(user.getActivationToken()!=null && user.getTokenExpiryTime()>System.currentTimeMillis())
+        if(users.getActivationToken()!=null && users.getTokenExpiryTime()>System.currentTimeMillis())
             throw new InvalidUserDetailsException(HttpStatus.CONFLICT,"Please check your email for activation link");
 
-        populateTokenDetails(user);
-        userManagementRepository.save(user);
-        emailService.sendEmailUsingTemplate(user.getUserName(),user.getEmail(),user.getActivationToken());
+        populateTokenDetails(users);
+        userManagementRepository.save(users);
+        emailService.sendEmailUsingTemplate(users.getUserName(), users.getEmail(), users.getActivationToken());
 
     }
 
     public boolean isUserExists(String userName, String email) {
-        List<User> users = userManagementRepository.isValidUser(userName, email);
+        List<Users> users = userManagementRepository.isValidUser(userName, email);
         return users!=null && !users.isEmpty();
     }
 
-    private void populateTokenDetails(User user) {
-        user.setActivationToken(UUID.randomUUID().toString());
+    private void populateTokenDetails(Users users) {
+        users.setActivationToken(UUID.randomUUID().toString());
         // since needs to check only for token expiration and not parsing. Storing in form of miliseconds works
-        user.setTokenExpiryTime(System.currentTimeMillis()+10*60*1000);
+        users.setTokenExpiryTime(System.currentTimeMillis()+10*60*1000);
     }
 
     public boolean validateUserDetailsForActivation(UserDTO userDTO) {
-        User user = userManagementRepository.findUserByUserName(userDTO.userName()).orElseThrow(() -> new InvalidUserDetailsException(HttpStatus.UNAUTHORIZED,"Invalid User Name or Password"));
-        if (!passwordEncoder.matches(userDTO.password(), user.getPassword()))
+        Users users = userManagementRepository.findUserByUserName(userDTO.userName()).orElseThrow(() -> new InvalidUserDetailsException(HttpStatus.UNAUTHORIZED,"Invalid User Name or Password"));
+        if (!passwordEncoder.matches(userDTO.password(), users.getPassword()))
             throw new InvalidUserDetailsException(HttpStatus.UNAUTHORIZED,"Invalid User Name or Password");
 
-        if(user.isActive())
+        if(users.isActive())
             throw new InvalidUserDetailsException(HttpStatus.CONFLICT,"Account is Already Activated. Please proceed with login");
 
-        if(user.getActivationToken().equals(userDTO.activationCode()) && user.getTokenExpiryTime()>System.currentTimeMillis()) {
-            user.setActive(true);
-            user.setTokenExpiryTime(null);
-            user.setActivationToken(null);
-            userManagementRepository.save(user);
+        if(users.getActivationToken().equals(userDTO.activationCode()) && users.getTokenExpiryTime()>System.currentTimeMillis()) {
+            users.setActive(true);
+            users.setTokenExpiryTime(null);
+            users.setActivationToken(null);
+            userManagementRepository.save(users);
             return true;
         }else {
             throw new InvalidUserDetailsException(HttpStatus.UNAUTHORIZED,"Invalid Authentication Token");

@@ -1,18 +1,18 @@
 package com.project.officequiz.repository;
 
-import com.project.officequiz.entity.User;
+import com.project.officequiz.entity.Users;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 import java.util.Optional;
 
-public interface UserManagementRepository extends JpaRepository<User,Integer> {
+public interface UserManagementRepository extends JpaRepository<Users,Integer> {
 
-    Optional<User> findUserByUuid(String uuid);
-    Optional<User> findUserByUserName(String userName);
+    Optional<Users> findUserByUuid(String uuid);
+    Optional<Users> findUserByUserName(String userName);
 
-    @Query("select u from User u where u.userName=?1 or u.email=?2")
-    List<User> isValidUser(String userName, String email);
+    @Query("select u from Users u where u.userName=?1 or u.email=?2")
+    List<Users> isValidUser(String userName, String email);
 
-    Optional<User> findByUserNameAndIsActiveTrue(String userName);
+    Optional<Users> findByUserNameAndIsActiveTrue(String userName);
 }

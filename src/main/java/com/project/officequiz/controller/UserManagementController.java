@@ -8,11 +8,14 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 
 @Controller
+@SessionAttributes("logoutSuccess")
 public class UserManagementController {
 
     private final UserManagementService userManagementService;
@@ -22,7 +25,13 @@ public class UserManagementController {
     }
 
     @GetMapping("/login")
-    public String showLoginForm(@RequestParam(required = false) String error) {
+    public String showLoginForm(Model model, @RequestParam(required = false) String error, SessionStatus sessionStatus) {
+
+        Boolean logoutSuccess = (Boolean) model.getAttribute("logoutSuccess");
+
+        if (Boolean.TRUE.equals(logoutSuccess))
+            sessionStatus.setComplete();
+
         return "new-login";
     }
 
@@ -37,6 +46,11 @@ public class UserManagementController {
         String userName = URLDecoder.decode(encodedUserName, StandardCharsets.UTF_8);
         userManagementService.resendActivationCode(userName);
         return "redirect:/register/success";
+    }
+
+    @ModelAttribute("logoutSuccess")
+    public Boolean logoutSuccess() {
+        return false;
     }
 
     @PostMapping("/activate")

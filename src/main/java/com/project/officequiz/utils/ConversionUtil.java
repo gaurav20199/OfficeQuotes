@@ -3,18 +3,16 @@ package com.project.officequiz.utils;
 import com.project.officequiz.dto.EpisodeDTO;
 import com.project.officequiz.dto.OptionsDTO;
 import com.project.officequiz.dto.QuestionDTO;
-import com.project.officequiz.dto.QuoteDTO;
 import com.project.officequiz.dto.UserDTO;
 import com.project.officequiz.entity.Episode;
 import com.project.officequiz.entity.Option;
 import com.project.officequiz.entity.Question;
 import com.project.officequiz.entity.Season;
-import com.project.officequiz.entity.User;
+import com.project.officequiz.entity.Users;
 
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.util.Date;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -28,12 +26,12 @@ public class ConversionUtil {
         return new OptionsDTO(option.getText(),option.isCorrect());
     }
 
-    public static User convertUserDTOToUser(UserDTO userDTO,String encodedPassword) {
-        User user = new User();
-        user.setUserName(userDTO.userName());
-        user.setEmail(userDTO.email());
-        user.setPassword(encodedPassword);
-        return user;
+    public static Users convertUserDTOToUser(UserDTO userDTO, String encodedPassword) {
+        Users users = new Users();
+        users.setUserName(userDTO.userName());
+        users.setEmail(userDTO.email());
+        users.setPassword(encodedPassword);
+        return users;
 
     }
 
