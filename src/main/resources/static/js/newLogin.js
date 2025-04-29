@@ -71,3 +71,26 @@ document.querySelectorAll('input[type="password"]').forEach(input => {
 
 // Check login status on page load
 checkLoginStatus();
+
+document.addEventListener('DOMContentLoaded', function () {
+    const toastEl = document.getElementById('logoutToast');
+    if (toastEl) {
+        const toast = new bootstrap.Toast(toastEl, { delay: 5000 });
+        toast.show();
+    }
+});
+
+function closeToast() {
+  const toast = document.querySelector('.toast');
+  if (toast) {
+    toast.classList.add('toast-hide');
+    setTimeout(() => {
+      toast.remove();
+    }, 400);
+  }
+}
+
+setTimeout(() => {
+  closeToast();
+}, 3000);
+

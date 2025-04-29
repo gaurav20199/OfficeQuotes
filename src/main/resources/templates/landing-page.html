@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.w3.org/1999/xhtml">
 <head>
     <title>The Office Quiz - Test Your Knowledge!</title>
     <meta charset="UTF-8" />
@@ -41,9 +41,20 @@
                 <li class="nav-item">
                     <a class="nav-link" href="#faq">FAQ</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="login">Login</a>
+
+
+                <li class="nav-item" sec:authorize="isAuthenticated()">
+                    <form id="logoutForm" th:action="@{/logout}" method="post">
+                        <a class="nav-link" href="#" onclick="handleLogout()">Logout</a>
+                        <input type="hidden" name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+                    </form>
                 </li>
+
+                <li class="nav-item" sec:authorize="isAnonymous()">
+                    <a class="nav-link" href="/login">Login</a>
+                </li>
+
+
             </ul>
         </div>
     </div>
@@ -355,7 +366,7 @@
                         </h2>
                         <div id="collapseOne" class="accordion-collapse collapse show" aria-labelledby="headingOne" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Yes, the basic version of the quiz is completely free to play. We offer a premium version with additional questions and features for die-hard fans.
+                                Yes, the basic version of the quiz is completely free to play.
                             </div>
                         </div>
                     </div>
@@ -368,7 +379,7 @@
                         </h2>
                         <div id="collapseTwo" class="accordion-collapse collapse" aria-labelledby="headingTwo" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Standard quizzes contain 20 questions, while our themed challenges can range from 10-30 questions depending on the topic. You can also customize the length in settings.
+                                Standard quizzes contain 20 questions, while our themed challenges can range from 10-30 questions depending on the topic.
                             </div>
                         </div>
                     </div>
@@ -381,7 +392,7 @@
                         </h2>
                         <div id="collapseThree" class="accordion-collapse collapse" aria-labelledby="headingThree" data-bs-parent="#faqAccordion">
                             <div class="accordion-body">
-                                Absolutely! You can create private quiz rooms and invite friends to compete in real-time, or challenge them to beat your score asynchronously.
+                                This feature will be released soon! You can create private quiz rooms and invite friends to compete in real-time, or challenge them to beat your score.
                             </div>
                         </div>
                     </div>

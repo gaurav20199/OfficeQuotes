@@ -13,11 +13,39 @@ const nextButton = document.getElementById('next-btn');
 const scoreElement = document.getElementById('score');
 const progressBar = document.getElementById('progress-bar');
 
+const token = document.querySelector('meta[name="_csrf"]').getAttribute('content');
+const headerName = document.querySelector('meta[name="_csrf_header"]').getAttribute('content');
+
+
 async function fetchQuizData() {
     try {
         const response = await fetch('/quiz/data'); // Ensure this endpoint returns quiz data
         quizData = await response.json();
         initQuiz();
+    } catch (error) {
+        console.error('Error fetching quiz data:', error);
+    }
+}
+
+function handleLogout() {
+    if (confirm('Are you sure you want to logout?')) {
+        document.getElementById('logoutForm').submit();
+    };
+}
+
+async function submitQuizData() {
+    try {
+        const totalQuestions = quizData.length;
+        const response = await fetch('/quiz/submit', {
+                                       method: 'POST',
+                                       headers: {
+                                         'Content-Type': 'application/json',
+                                         [headerName]: token,
+                                       },
+                                       credentials: "include",
+                                       body: JSON.stringify({ score, totalQuestions })
+                                     });
+        quizData = await response.json();
     } catch (error) {
         console.error('Error fetching quiz data:', error);
     }
@@ -103,6 +131,7 @@ function showFinalResult() {
     optionsContainer.style.display = 'none';
     resultText.textContent = `Your Score: ${score}/${quizData.length}`;
     funFactElement.textContent = score === quizData.length ? "Perfect score! You're an expert! 🏆" : "Great effort! Try again!";
+    submitQuizData();
     nextButton.textContent = 'Restart Quiz';
     nextButton.addEventListener('click', restartQuiz, { once: true });
     resultContainer.classList.remove('hidden');

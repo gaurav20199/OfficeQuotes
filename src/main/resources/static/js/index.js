@@ -132,3 +132,9 @@ document.addEventListener('DOMContentLoaded', function() {
 function startQuiz() {
     window.location.href = "/quiz";
 }
+
+function handleLogout() {
+    if (confirm('Are you sure you want to logout?')) {
+        document.getElementById('logoutForm').submit();
+    };
+}
