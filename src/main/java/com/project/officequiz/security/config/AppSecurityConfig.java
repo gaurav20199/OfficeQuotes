@@ -22,7 +22,7 @@ public class AppSecurityConfig {
         return httpSecurity.
                 formLogin(
                         customizer -> customizer.loginPage("/login").
-                        defaultSuccessUrl("/quiz",true)
+                        defaultSuccessUrl("/",true)
                         //failureHandler(failureHandler)
                 ).
                 authorizeHttpRequests(
