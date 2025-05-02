@@ -14,17 +14,33 @@
     </style>
 </head>
 <body>
+
+    <div th:if="${logoutSuccess}" class="toast-container">
+        <div id="logoutToast" class="toast align-items-center text-bg-success border-0 fade" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    You have been logged out successfully
+                </div>
+                <button class="toast-close" onclick="closeToast()">×</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div th:if="${param.error}" class="toast-container">
+        <div id="invalidCredentialsToast" class="toast align-items-center text-bg-success border-0 fade" role="alert" aria-live="assertive" aria-atomic="true">
+            <div class="d-flex">
+                <div class="toast-body">
+                    Invalid username or password.
+                </div>
+                <button class="toast-close" onclick="closeToast()">×</button>
+            </div>
+        </div>
+    </div>
+
+
     <div class="container">
         <div class="form-container">
-
-            <!--  <div th:if="${session.errorMessage!=null}" class="alert alert-danger text-center" th:text="${session.errorMessage}"></div>-->
-            <!--  <th:block th:text="${@sessionHandler.removeMessageFromSession()}"></th:block>-->
-
-            <div th:if="${param.error}" class="alert alert-danger text-center">
-                Invalid username and password.</div>
-            <div th:if="${param.logout}" class="alert alert-danger text-center">
-                You have been logged out.</div>
-
             <h2 id="mainHeading">Welcome Back</h2>
             <p class="subtitle" id="paraSubTitle">Please Activate your account</p>
             <form th:action="@{/activate}" method="post">
@@ -79,6 +95,17 @@
                 window.location.href = `/token?userName=${encodeURIComponent(userName)}`;
             });
         });
+
+    document.addEventListener('DOMContentLoaded', function () {
+        const toastElForLogout = document.getElementById('logoutToast');
+        const toastElForInvalidCredentials = document.getElementById('invalidCredentialsToast');
+        if (toastElForLogout || toastElForInvalidCredentials) {
+            const toast = toastElForLogout?new bootstrap.Toast(toastElForLogout, { delay: 5000 }):
+                                           new bootstrap.Toast(toastElForInvalidCredentials, { delay: 5000 }) ;
+            toast.show();
+        }
+    });
+
     </script>
 </body>
 </html>

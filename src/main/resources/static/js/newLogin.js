@@ -73,9 +73,11 @@ document.querySelectorAll('input[type="password"]').forEach(input => {
 checkLoginStatus();
 
 document.addEventListener('DOMContentLoaded', function () {
-    const toastEl = document.getElementById('logoutToast');
-    if (toastEl) {
-        const toast = new bootstrap.Toast(toastEl, { delay: 5000 });
+    const toastElForLogout = document.getElementById('logoutToast');
+    const toastElForInvalidCredentials = document.getElementById('invalidCredentialsToast');
+    if (toastElForLogout || toastElForInvalidCredentials) {
+        const toast = toastElForLogout?new bootstrap.Toast(toastElForLogout, { delay: 5000 }):
+                                       new bootstrap.Toast(toastElForInvalidCredentials, { delay: 5000 }) ;
         toast.show();
     }
 });

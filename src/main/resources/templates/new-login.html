@@ -20,15 +20,24 @@
     </div>
 </div>
 
+
+<div th:if="${param.error}" class="toast-container">
+    <div id="invalidCredentialsToast" class="toast align-items-center text-bg-success border-0 fade" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="d-flex">
+            <div class="toast-body">
+                Invalid username or password.
+            </div>
+            <button class="toast-close" onclick="closeToast()">×</button>
+        </div>
+    </div>
+</div>
+
 <div class="container">
 
     <div class="form-container" id="loginForm">
 
 <!--  <div th:if="${session.errorMessage!=null}" class="alert alert-danger text-center" th:text="${session.errorMessage}"></div>-->
 <!--  <th:block th:text="${@sessionHandler.removeMessageFromSession()}"></th:block>-->
-
-        <div th:if="${param.error}" class="alert alert-danger text-center">
-            Invalid username and password.</div>
 
         <h2>Welcome Back</h2>
         <p class="subtitle">Please login to your account</p>
