@@ -8,6 +8,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.Context;
@@ -42,7 +43,7 @@ public class EmailService {
         message.setText(emailContent);
         emailSender.send(message);
     }
-
+    @Async
     public void sendEmailUsingTemplate(String userName,String recipientEmail,String activationCode) throws MessagingException {
         Map<String, Object> templateModel = fetchEmailHtmlContent(userName,activationCode);
         Context context = new Context();
