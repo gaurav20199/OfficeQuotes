@@ -56,14 +56,14 @@ function initQuiz() {
 
     nextButton.addEventListener('click', () => {
         currentQuestion++;
-
+        const isRestartButtonClicked = nextButton.textContent === "Restart Quiz";
         if (currentQuestion < quizData.length) {
             loadQuestion();
             resultContainer.classList.add('hidden');
             optionsContainer.querySelectorAll('.option').forEach(option => {
                 option.style.pointerEvents = 'auto';
             });
-        } else {
+        } else if(!isRestartButtonClicked) {
             showFinalResult();
         }
     });

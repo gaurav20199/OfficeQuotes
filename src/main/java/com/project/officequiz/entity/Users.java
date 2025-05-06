@@ -16,30 +16,5 @@ import lombok.Setter;
 import org.hibernate.annotations.UuidGenerator;
 import java.util.Set;
 
-@Entity
-@Getter
-@Setter
-@Table(name = "users")
-public class Users {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
 
-    @UuidGenerator
-    private String uuid;
-    @Column(unique = true)
-    private String userName;
-    @Column(unique = true)
-    private String email;
-    private String password;
-    private boolean isActive = false;
-    private String activationToken;
-    private Long tokenExpiryTime;
 
-    @ManyToMany(fetch = FetchType.EAGER,cascade = {CascadeType.PERSIST,CascadeType.MERGE})
-    @JoinTable(name = "user_authorities",
-            joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "authority_id")
-    )
-    private Set<Authority> authorities;
-}
