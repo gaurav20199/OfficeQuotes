@@ -28,7 +28,7 @@ public class AppSecurityConfig {
                 authorizeHttpRequests(
                         auth ->
                         auth.requestMatchers(
-                                        "/login","/register", "/activate/**",
+                                        "/login","/register/**", "/activate/**",
                                         "/", "/css/**", "/images/**","/js/**","/favicon.ico","/registration-success","/token"
                                 ).
                         permitAll().anyRequest().authenticated()

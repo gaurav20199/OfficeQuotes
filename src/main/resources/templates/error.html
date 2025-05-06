@@ -12,7 +12,7 @@
         <h1>Oops! Something Went Wrong</h1>
         <div class="emoji">😞</div>
         <p th:if="${message}" th:text="${message}"></p>
-        <p th:if="${status=='Gone'}" th:text="Activation token has expired. Please request a new activation link."></p>
+        <p th:if="${status=='Unauthorized'}" th:text="Invalid Credentials or Activation code"></p>
         <a th:href="@{/login}" class="btn">Go to Login</a>
     </div>
 </body>

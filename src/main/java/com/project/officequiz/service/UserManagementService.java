@@ -102,7 +102,7 @@ public class UserManagementService implements UserDetailsService {
             userManagementRepository.save(users);
             return true;
         }else {
-            throw new InvalidUserDetailsException(HttpStatus.UNAUTHORIZED,"Invalid Authentication Token");
+            throw new InvalidUserDetailsException(HttpStatus.UNAUTHORIZED,"Invalid Credentials or Authentication Token");
         }
     }
 }

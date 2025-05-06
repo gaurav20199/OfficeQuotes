@@ -75,7 +75,7 @@ public class UserManagementController {
     @PostMapping("/register")
     public String registerUser(@ModelAttribute UserDTO userDTO) throws Exception{
         userManagementService.createUser(userDTO);
-        return "redirect:/registration-success";
+        return "redirect:/register/success";
     }
 
     @GetMapping("/register/success")
